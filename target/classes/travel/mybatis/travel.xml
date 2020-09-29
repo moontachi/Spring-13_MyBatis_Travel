@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- travel.xml mapper 화일 -->
+<mapper namespace="travel.TravelBean">
+	<insert id="InsertTravel">
+		insert into
+		travel(num,name,age,area,style,price)
+		values(travel_seq.nextval,#{name},#{age},#{area},#{style},#{price})
+	</insert>
+
+	<select id="GetTravelList" resultType="MyTravel">
+		select * from travel
+		<if test="whatColumn=='area'">
+			where area like #{keyword}
+		</if>
+		<if test="whatColumn=='style'">
+			where style like #{keyword}
+		</if>
+		order by num asc
+	</select>
+
+	<select id="GetTotalCount" resultType="int">
+		select count(*) from travel
+		<if test="whatColumn=='area'">
+			where area like #{keyword}
+		</if>
+		<if test="whatColumn=='style'">
+			where style like #{keyword}
+		</if>
+	</select>
+	
+	<delete id="DeleteTravel">
+		delete from travel 
+		where num= #{num}
+	</delete>
+	
+	<select id="GetOneTravel" resultType="MyTravel">  
+		select * from travel
+		where num = #{num}
+	</select>
+	
+	<update id="UpdateTravel">
+		update travel set
+		name=#{name},age=#{age},area=#{area},style=#{style},price=#{price}
+		where num=#{num} 
+	</update>
+	
+	
+</mapper>
+
